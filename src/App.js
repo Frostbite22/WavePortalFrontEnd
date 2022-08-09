@@ -16,7 +16,9 @@ export default function App() {
 
   //0xb3CeB1859f7d1c7AcB1B8D5F3C034a14f6b5CCD0
   //0x1ba528bE2E7Be425d04F1017Fae4a4ec75f726dd
-  const contractAddress = "0xdb5D1186A80426951DC40b59085047a5CB5AD6b9";
+  //
+  //0xdb5D1186A80426951DC40b59085047a5CB5AD6b9
+  const contractAddress = "0xcdcEDfa3c2654Ec0fD04264621476E2dCE727E53";
   const contractABI = abi.abi;
   const checkIfWalletIsConnected = async () => {
     try {
