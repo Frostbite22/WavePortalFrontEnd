@@ -4,12 +4,15 @@ import { ethers } from "ethers";
 import abi from "./utils/WavePortal.json";
 import "./App.css";
 
+import LoadingSpinner from "./LoadingSpinner";
+
 export default function App() {
   const [totalWaves, setTotalWaves] = useState();
   const [currentAccount, setCurrentAccount] = useState("");
   const [connEthers, setConnEthers] = useState();
   const [message, setMessage] = useState("");
   const [allWaves, setAllWaves] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   //0xb3CeB1859f7d1c7AcB1B8D5F3C034a14f6b5CCD0
   //0x1ba528bE2E7Be425d04F1017Fae4a4ec75f726dd
@@ -88,7 +91,7 @@ export default function App() {
   const wave = async (conn) => {
     try {
       let wavePortalContract = conn;
-      console.log(message);
+      setIsLoading(true);
       const waveTxn = await wavePortalContract.wave(message, {
         gasLimit: 300000,
       });
@@ -97,6 +100,7 @@ export default function App() {
       console.log(error);
     } finally {
       calculateWaves(conn);
+      setIsLoading(false);
     }
   };
 
@@ -170,9 +174,10 @@ export default function App() {
     <div className="mainContainer">
       <div className="dataContainer">
         <div className="header"> {totalWaves} 👋 Hey there!</div>
-        <div className="bio">Fares here !</div>
-        <br></br>
-
+        <div className="bio">
+          Fares here !<br></br>
+          {isLoading ? <LoadingSpinner /> : ""}
+        </div>
         <input
           type="text"
           value={message.value}
@@ -180,7 +185,11 @@ export default function App() {
           name="message"
           onChange={(message) => setMessage(message.target.value)}
         />
-        <button className="waveButton" onClick={() => wave(connEthers)}>
+        <button
+          className="waveButton"
+          onClick={() => wave(connEthers)}
+          disabled={isLoading}
+        >
           Wave at Me
         </button>
 
